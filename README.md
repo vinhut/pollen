@@ -15,10 +15,8 @@ Pollen stored list of kubes services/pods in etcd, so you must have setup etcd a
 ### Etcd key path
 in etcd, list of kubernetes service stored on path :
 
-```\/loadbalancer\/kube\/service\/
-```
+`/loadbalancer/kube/service/`
 
 list of kubernetes pods stored on path :
 
-```\/loadbalancer\/kube\/pods\/service_name\/
-```
+`/loadbalancer/kube/pods/service_name/`
