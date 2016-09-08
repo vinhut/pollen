@@ -12,3 +12,11 @@ Pollen stored list of kubes services/pods in etcd, so you must have setup etcd a
 
 **POLL_INTERVAL** polling interval in seconds, default to 10
 
+### Etcd key path
+in etcd, list of kubernetes service stored on path :
+
+```/loadbalancer/kube/service/```
+
+list of kubernetes pods stored on path :
+
+```/loadbalancer/kube/pods/<service name>/```
