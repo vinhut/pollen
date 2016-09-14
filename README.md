@@ -2,7 +2,7 @@ Pollen is python program that primary use is to be paired with confd and to dyna
 Pollen stored list of kubes services/pods in etcd, so you must have setup etcd as a requirement.
 
 ### Configuration
-**KUBE_CONFIG** kubernetes cli config, default to "/home/user/.kube/config"
+**KUBE_CONFIG** kubernetes cli config, default to "$HOME/.kube/config"
 
 **ETCD_HOST** etcd host or ip address, default to "etcd1"
 
