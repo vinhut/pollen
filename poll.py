@@ -6,11 +6,11 @@ import pykube
 import etcd
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-KUBE_CONFIG="/home/user/.kube/config"
-ETCD_HOST="etcd1"
-ETCD_PORT=2379
-KUBE_NAMESPACE="default"
-POLL_INTERVAL=10
+KUBE_CONFIG = os.environ.get("KUBE_CONFIG") or "/home/user/.kube/config"
+ETCD_HOST = os.environ.get("ETCD_HOST") or "etcd1"
+ETCD_PORT = os.environ.get("ETCD_PORT") or 2379
+KUBE_NAMESPACE = os.environ.get("KUBE_NAMESPACE") or "default"
+POLL_INTERVAL = os.environ.get("POLL_INTERVAL") or 10
 
 client = etcd.Client(host=ETCD_HOST,port=ETCD_PORT,allow_reconnect=True)
 api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBE_CONFIG))
