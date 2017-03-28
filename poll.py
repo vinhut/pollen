@@ -12,12 +12,15 @@ ETCD_PORT = os.environ.get("ETCD_PORT") or 2379
 KUBE_NAMESPACE = os.environ.get("KUBE_NAMESPACE") or "default"
 POLL_INTERVAL = os.environ.get("POLL_INTERVAL") or 10
 
-client = etcd.Client(host=ETCD_HOST,port=ETCD_PORT,allow_reconnect=True)
-api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBE_CONFIG))
-# disable tls verification
-api.session.verify = False
-
 #pdb.set_trace()
+
+def parse_args():
+    import argparse
+
+    parser = argparse.ArgumentParser(description = "Periodically checks kubernetes LB status")
+    parser.add_argument('-k', default = False, action = 'store_true')
+    args = parser.parse_args()
+    return args
 
 def query_kube_api():
     svc_list = []
@@ -67,10 +70,25 @@ def query_kube_api():
           if not base in pods_list:
              client.delete(podname.key)
 
-sched = BlockingScheduler()
-sched.add_job(query_kube_api, 'interval', seconds=POLL_INTERVAL)
-print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
-try:
-  sched.start()
-except (KeyboardInterrupt, SystemExit):
-  pass
+
+def main():
+    
+    args = parse_args()
+    client = etcd.Client(host=ETCD_HOST,port=ETCD_PORT,allow_reconnect=True)
+    api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBE_CONFIG))
+    # disable tls verification
+    api.session.verify = args.k
+
+    sched = BlockingScheduler()
+    sched.add_job(query_kube_api, 'interval', seconds=POLL_INTERVAL)
+    
+    print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
+    try:
+       sched.start()
+    except (KeyboardInterrupt, SystemExit):
+       pass
+
+if __name__ == '__main__':
+   main()
+
+
