@@ -23,6 +23,7 @@ def parse_args():
     return args
 
 def query_kube_api():
+    global api
     svc_list = []
 
     svc = pykube.Service.objects(api).filter(namespace=KUBE_NAMESPACE)
@@ -75,6 +76,8 @@ def main():
     
     args = parse_args()
     client = etcd.Client(host=ETCD_HOST,port=ETCD_PORT,allow_reconnect=True)
+
+    global api
     api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBE_CONFIG))
     # disable tls verification
     api.session.verify = args.k
