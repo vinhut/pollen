@@ -59,7 +59,7 @@ def query_kube_api():
        pod_name = i.obj['metadata']['name']
        pods_list.append(pod_name)
        # get pod service name
-       svc_name = i.obj['metadata']['labels']['app']
+       svc_name = i.obj['metadata']['labels']['service']
        # print pod internal ip
        pod_ip = i.obj['status']['podIP']
        client.write('/loadbalancer/kube/pods/'+svc_name+'/'+pod_name, pod_ip)
