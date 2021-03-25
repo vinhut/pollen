@@ -8,7 +8,7 @@ pyasn1-modules==0.0.8
 pykube==0.15.0
 python-etcd==0.4.3
 pytz==2016.10
-PyYAML==3.12
+PyYAML==5.4
 requests==2.13.0
 requests-oauthlib==0.8.0
 rsa==3.4.2
